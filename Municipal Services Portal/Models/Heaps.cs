@@ -7,7 +7,7 @@ namespace Municipal_Services_Portal.Models
     {
         private List<Issue> issueHeap = new List<Issue>();
 
-        public void InsertIssue(Issue issue)
+        public void Insert(Issue issue)
         {
             issueHeap.Add(issue);   
             MoveUp(issueHeap.Count - 1);
