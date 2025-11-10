@@ -9,7 +9,11 @@
         public DateTime DateSubmitted { get; set; }
         public string Status {  get; set; }
 
-        public Issue(string location, string category, string description, string mediaPath)
+        public int Priority { get; set; }
+
+        public Guid IssueID { get; set; }
+
+        public Issue(string location, string category, string description, string mediaPath, int priority, Guid issueID)
         {
             Location = location;
             Category = category;
@@ -17,6 +21,8 @@
             MediaPath = mediaPath;
             DateSubmitted = DateTime.Now;
             Status = "Pending";
+            Priority = priority;
+            IssueID = Guid.NewGuid();
         }
 
 

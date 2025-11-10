@@ -4,7 +4,7 @@ namespace Municipal_Services_Portal.Controllers
 {
     public class ServiceRequestController : Controller
     {
-        public IActionResult Index()
+        public IActionResult ServiceRequest()
         {
             return View();
         }
