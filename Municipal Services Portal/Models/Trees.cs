@@ -8,13 +8,11 @@ namespace Municipal_Services_Portal.Models
     public class TreeNode
     {
         public Issue data {  get; set; }
-        public int height { get; set; }
         public TreeNode left { get; set; }
         public TreeNode right { get; set; }
 
         public TreeNode(Issue issue) {
             data = issue;
-            height = 1;
             left = null;
             right = null;
 
@@ -67,88 +65,31 @@ namespace Municipal_Services_Portal.Models
             issues.Add(node.data);
             Traverse(node.right, issues);
         }
-    }
 
+        public Issue SearchID(int issueID)
+        {
+            return SearchRec(root, issueID);
+        }
 
-    public class AVLTree : BinSearchTree
-    {
-        private int GetHeight(TreeNode node) => node?.height ?? 0;
-        private int GetBalance(TreeNode node) => node == null ? 0 : GetHeight(node.left) - GetHeight(node.right); 
-
-        private new TreeNode Insert(TreeNode node, Issue issue)
+        private Issue SearchRec(TreeNode node, int issueID)
         {
             if (node == null)
             {
-                return new TreeNode(issue);
+                return null;
             }
-            if (issue.DateSubmitted < node.data.DateSubmitted)
+            if (node.data.IssueID == issueID) 
             {
-                node.left = Insert(node.left, issue);
-            }
-            else
-            {
-                node.right = Insert(node.right, issue);
+                return node.data;
             }
 
-            node.height = 1 + Math.Max(GetHeight(node.left), GetHeight(node.right));
-            int balance = GetBalance(node);
-
-            if (balance > 1 && issue.DateSubmitted < node.left.data.DateSubmitted)
+            var lSearch = SearchRec(node.left, issueID);
+            if (lSearch != null)
             {
-                return RightRotate(node);
+                return lSearch;
             }
 
-            if (balance < -1 && issue.DateSubmitted > node.right.data.DateSubmitted)
-            {
-                return LeftRotate(node);
-            }
-            if (balance > 1 && issue.DateSubmitted > node.left.data.DateSubmitted)
-            {
-                node.left = LeftRotate(node.left);
-                return RightRotate(node);
-            }
-            if (balance < -1 && issue.DateSubmitted < node.right.data.DateSubmitted)
-            {
-                node.right = RightRotate(node.right);
-                return LeftRotate(node);
-            }
-
-            return node;
-
+            return SearchRec(node.right, issueID);
         }
-
-        private TreeNode RightRotate(TreeNode y)
-        {
-            TreeNode x = y.left;
-            TreeNode t2 = x.right;
-            x.right = y;
-            y.left = t2;
-            y.height = Math.Max(GetHeight(y.left), GetHeight(y.right)) + 1;
-            x.height = Math.Max(GetHeight(x.left), GetHeight(x.right) + 1);
-
-            return x;
-        }
-
-        private TreeNode LeftRotate(TreeNode x)
-        {
-            TreeNode y = x.right;
-            TreeNode t2 = y.left;
-            y.left = x;
-            x.right = t2;
-            x.height = Math.Max(GetHeight(x.left), GetHeight(x.right)) + 1;
-            y.height = Math.Max(GetHeight(y.left), GetHeight(y.right) + 1);
-
-            return y;
-        }
-
-        public new List<Issue> IssuesInOrder()
-        {
-            List<Issue> issues = new List<Issue>();
-            Traverse(root, issues);
-            return issues;
-        }
-
-
     }
 
     

@@ -530,6 +530,11 @@ html, body {
         color: #333;
         margin-bottom: 15px;
     }
+    .issue-card .request-id {
+        font-size: 0.85rem;
+        color: #777;
+        margin-bottom: 10px;
+    }
 
     .issue-card .date {
         font-size: 0.85rem;
@@ -775,3 +780,7 @@ body.events {
         transform: translateY(-3px);
         box-shadow: 0 6px 12px rgba(0,0,0,0.15);
     }
+ .request-id {
+    color: inherit;
+    margin-top: 0.5rem;
+}

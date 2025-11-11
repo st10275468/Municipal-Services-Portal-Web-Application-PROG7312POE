@@ -11,8 +11,8 @@ namespace Municipal_Services_Portal.Controllers
         static ReportIssueController()
         {
             //Sample data that will be on the website when opened for demo purposes
-            var issue1 = new Issue("2 Howe Road, Observatory", "Roads", "Road is flooded", "");
-            var issue2 = new Issue("41 Main Road, Bergvliet", "Electrical", "Street light down", "");
+            var issue1 = new Issue("2 Howe Road, Observatory", "Roads", "Road is flooded", "", 1 );
+            var issue2 = new Issue("41 Main Road, Bergvliet", "Electrical", "Street light down", "", 2 );
 
             issue1.Status = "Resolved";
             issue2.Status = "In progress";
@@ -53,7 +53,9 @@ namespace Municipal_Services_Portal.Controllers
             }
 
             //Creating a mew issue and adding it to the linkedlist
-            Issue newIssue = new Issue(location, category, description, mediaPath);
+            int priority = 3;
+            Guid id = Guid.NewGuid();
+            Issue newIssue = new Issue(location, category, description, mediaPath, priority);
             issues.AddIssue(newIssue);
             ViewBag.Message = "Issue submitted";
 

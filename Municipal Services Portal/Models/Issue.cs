@@ -11,9 +11,10 @@
 
         public int Priority { get; set; }
 
-        public Guid IssueID { get; set; }
+        public int IssueID { get; set; }
 
-        public Issue(string location, string category, string description, string mediaPath, int priority, Guid issueID)
+        public static int issueCount = 1;
+        public Issue(string location, string category, string description, string mediaPath, int priority)
         {
             Location = location;
             Category = category;
@@ -22,7 +23,7 @@
             DateSubmitted = DateTime.Now;
             Status = "Pending";
             Priority = priority;
-            IssueID = Guid.NewGuid();
+            IssueID = issueCount++;
         }
 
 

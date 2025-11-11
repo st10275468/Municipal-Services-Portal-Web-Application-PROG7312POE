@@ -6,10 +6,9 @@ namespace Municipal_Services_Portal.Controllers
     public class ServiceRequestController : Controller
     {
         private static IssueLinkedList issues = ReportIssueController.issues;
-        public IActionResult ServiceRequest()
+        public IActionResult ServiceRequest(int? searchID)
         {
             BinSearchTree bst = new BinSearchTree();
-            AVLTree avl = new AVLTree();
             IssueHeap issueHeap = new IssueHeap();
             Graphs graph = new Graphs();
 
@@ -18,25 +17,37 @@ namespace Municipal_Services_Portal.Controllers
             foreach (Issue issue in arrIssues) 
             { 
                 bst.Insert(issue);
-                avl.Insert(issue);
                 issueHeap.Insert(issue);
                 graph.AddCategory(issue.Category);
 
             }
 
-            for (int i = 0; i < arrIssues.Length; i++)
+            List<Issue> bstIssues;
+
+            if (searchID.HasValue)
             {
-                for (int j = i + 1; j < arrIssues.Length; j++)
-                {
-                    if (arrIssues[i].Category == arrIssues[j].Category)
-                    {
-                        graph.Connect(arrIssues[i].Category, arrIssues[j].Category);
-                    }
-                }
+                Issue found = bst.SearchID(searchID.Value);
+                bstIssues = found != null ? new List<Issue> { found } : new List<Issue>();
+            }
+            else { 
+
+            bstIssues = bst.IssuesInOrder();    
+
             }
 
-            ViewBag.bstIssues = bst.IssuesInOrder();
-            ViewBag.avlIssues = avl.IssuesInOrder();
+
+                for (int i = 0; i < arrIssues.Length; i++)
+                {
+                    for (int j = i + 1; j < arrIssues.Length; j++)
+                    {
+                        if (arrIssues[i].Category == arrIssues[j].Category)
+                        {
+                            graph.Connect(arrIssues[i].Category, arrIssues[j].Category);
+                        }
+                    }
+                }
+
+            ViewBag.bstIssues = bstIssues;
             ViewBag.heapIssues = issueHeap.ToList();
             ViewBag.Graph = graph;
 
