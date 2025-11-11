@@ -1,5 +1,57 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model Municipal_Services_Portal.Models.Issue[]
+
 @{
+    ViewData["Title"] = "Service Request Status";
+    var bstIssues = ViewBag.bstIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
 }
+
+<div class="display-section">
+    <div class="container">
+        <div class="reportHero-text">
+            <h1>Service Request Status</h1>
+            <p>Track the status of your service requests</p>
+        </div>
+        <div class="issues-filter mb-4">
+            <input type="number" id="searchInput" placeholder="Search using Issue ID" onkeyup="filterIssues()"/>
+        </div>
+        <div class="issues-grid" id="issuesGrid">
+            @if (bstIssues.Count == 0)
+            {
+                <div class="no-issues"> No issues found</div>
+            }
+            else
+            {
+                @foreach (var issue in bstIssues)
+                {
+                    <div class="issue-card" data-issueid="@issue.IssueID">
+                        <h5>@issue.Category</h5>
+                        <p class="location"><strong>Location:</strong> @issue.Location</p>
+                        <p class="description"><strong>Description:</strong> @issue.Description</p>
+                        <p class="date"><strong>Date Submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
+                        <p class="status">
+                            <span class="badge @(issue.Status == "Pending" ? "pending" : "resolved")">@issue.Status</span>
+                        </p>
+                        <p class="description"><strong>Request ID:</strong> @issue.IssueID</p>
+                        @if (!string.IsNullOrEmpty(issue.MediaPath))
+                        {
+                            <a href="@issue.MediaPath" target="_blank" class="btn-">View Attachment</a>
+                        }
+                    </div>
+                }
+            }
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function filterIssues(){
+        var input = document.getElementById('searchInput').value;
+        var cards = document.querySelectorAll('.issue-card');
+
+        cards.forEach(card => {
+            var issueID = card.dataset.issueid;
+            card.style.display = issueID.includes(input) ? 'flex' : 'none';
+        });
+    }
+</script>
