@@ -9,11 +9,11 @@
     var searchID = ViewBag.SearchID as int?;
 }
 
-<div class="display-section" style="min-height: 800px;">
+<div class="service-request" style="min-height: 800px;">
     <div class="container">
         <div class="service-request-header" style="padding-top: 40px;">
             <h1>Service Request Status</h1>
-            <p style="font-size: 20px; padding-left:80px">Track the status of your service requests</p>
+            <p class="service-text" style="font-size: 20px;">Track the status of your service requests</p>
         </div>
         <div class="row">
             <div class="col-lg-9">
@@ -59,7 +59,7 @@
 
                     @if (relatedCategoryIssues.Count == 0)
                     {
-                        <p style="text-align:center;">No related issues found</p>
+                        <p style="text-align:center; color:white;">No related issues found</p>
                     }
                     else
                     {
@@ -101,7 +101,7 @@
                     }
                     else
                     {
-                        <li class="list-group-item">No priority issues</li>
+                        <li class="list-group-item" style="color:white !important; ">No priority issues</li>
                     }
                 </ul>
 
@@ -119,7 +119,8 @@
                 }
                 else
                 {
-                    <p>No related categories</p>
+
+                    <p style="color:white !important;">No related categories</p>
                 }
 
             </div>
