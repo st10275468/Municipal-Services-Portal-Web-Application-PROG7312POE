@@ -11,23 +11,22 @@
 
 <div class="display-section" style="min-height: 800px;">
     <div class="container">
-        <div class="reportHero-text mb-4">
+        <div class="service-request-header" style="padding-top: 40px;">
             <h1>Service Request Status</h1>
-            <p>Track the status of your service requests</p>
+            <p style="font-size: 20px; padding-left:80px">Track the status of your service requests</p>
         </div>
-
         <div class="row">
             <div class="col-lg-9">
                 <div class="issues-filter mb-4">
                     <form method="get" asp-controller="ServiceRequest" asp-action="ServiceRequest">
                         <div class="input-group">
                             <input type="number" name="searchID" placeholder="Search using Issue ID" class="form-control" value="@searchID" />
-                            <button type="submit" class="btn btn-primary"> Search</button>
+                            <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color); border: var(--primary-color);"> Search</button>
                         </div>
                     </form>
                 </div>
 
-                <div class="issues-grid" id="issuesGrid">
+                <div class="issues-grid" style="min-height: 100px;" id="issuesGrid">
                     @if (bstIssues.Count == 0)
                     {
                         <div class="no-issues"> No issues found</div>
@@ -56,11 +55,11 @@
 
                 @if (searchID.HasValue)
                 {
-                    <h4 class="mt-4" style="text-align:center;"> Issues from related categories</h4>
+                    <h4 class="recently-viewed-heading" style="text-align:center; margin-top: 15px; margin-bottom: 15px">Issues from related categories</h4>
 
                     @if (relatedCategoryIssues.Count == 0)
                     {
-                        <p class="text-muted" style="text-align:center;">No related issues found</p>
+                        <p style="text-align:center;">No related issues found</p>
                     }
                     else
                     {
@@ -88,13 +87,13 @@
             </div>
 
             <div class="col-lg-3">
-                <h4 class="priority-heading"> Priority Service Requests</h4>
-                <ul class="list-group mb-4" id="priorityList">
+                <h4 class="recently-viewed-heading"> Priority Service Requests</h4>
+                <ul class="list-group" id="priorityList">
                     @if (heapIssues.Count > 0)
                     {
                         foreach (var issue in heapIssues)
                         {
-                            <li class="list-group-item d-flex justify-content-between align-items-center" style="border-radius:10px; margin-bottom:5px;">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" style="border-radius:10px; margin-bottom:5px;color: var(--primary-color);">
                                 <span>@issue.Category - @issue.IssueID</span>
                                 <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")"> @issue.Status</span>
                             </li>
@@ -106,13 +105,13 @@
                     }
                 </ul>
 
-                <h5>Related Categories</h5>
+                <h4 class="recently-viewed-heading" style="margin-top: 10px;">Related Categories</h4>
                 @if (relatedCategories.Count > 0)
                 {
-                    <ul class="list-group mb-4">
+                    <ul class="list-group">
                         @foreach (var category in relatedCategories)
                         {
-                            <li class="list-group-item" style="border-radius:10px; margin-bottom: 5px;">
+                            <li class="list-group-item" style="border-radius:10px; margin-bottom: 5px; color: var(--primary-color);">
                                 @category
                             </li>
                         }
@@ -120,7 +119,7 @@
                 }
                 else
                 {
-                    <p class="text-muted">No related categories</p>
+                    <p>No related categories</p>
                 }
 
             </div>

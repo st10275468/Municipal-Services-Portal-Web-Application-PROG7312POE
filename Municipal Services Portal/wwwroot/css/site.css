@@ -787,3 +787,17 @@ body.events {
  .badge.resolved{
      background-color: #28a745;
  }
+ .primary-text{
+     color: var(--primary-color);
+ }
+.service-request-header {
+    text-align: left;
+    margin-bottom: 30px;
+    margin-left: 250px
+}
+
+    .service-request-header h1 {
+        color: #fff;
+        font-size: 3.5rem;
+        text-shadow: 4px 4px 8px rgba(0,0,0,0.8);
+    }
