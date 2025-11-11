@@ -15,7 +15,7 @@ namespace Municipal_Services_Portal.Controllers
             var issue2 = new Issue("41 Main Road, Bergvliet", "Electrical", "Street light down", "", 2 );
 
             issue1.Status = "Resolved";
-            issue2.Status = "In progress";
+            issue2.Status = "In Progress";
 
             issues.AddIssue(issue1);
             issues.AddIssue(issue2);

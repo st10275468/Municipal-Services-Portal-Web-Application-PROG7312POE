@@ -82,7 +82,13 @@ namespace Municipal_Services_Portal.Models
             }
         }
 
-        public List<Issue> ToList() => new List<Issue>(issueHeap);
+
+        public List<Issue> ToSortedList()
+        {
+            var sortedIssues = new List<Issue>(issueHeap);
+            sortedIssues.Sort((a, b) => GetPriority(b).CompareTo(GetPriority(a)));
+            return sortedIssues;
+        }
 
     }
 }

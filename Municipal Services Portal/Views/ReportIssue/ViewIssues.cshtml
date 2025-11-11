@@ -38,7 +38,7 @@
                     <p class="description">@issue.Description</p>
                     <p class="date"><strong>Submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
                     <p class="status">
-                        <span class="badge @(issue.Status == "Pending" ? "pending" : "resolved")">@issue.Status</span>
+                            <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")">@issue.Status</span>
                     </p>
                     @if (!string.IsNullOrEmpty(issue.MediaPath))
                     {

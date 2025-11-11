@@ -48,7 +48,7 @@ namespace Municipal_Services_Portal.Controllers
                 }
 
             ViewBag.bstIssues = bstIssues;
-            ViewBag.heapIssues = issueHeap.ToList();
+            ViewBag.heapIssues = issueHeap.ToSortedList();
             ViewBag.Graph = graph;
 
             return View(arrIssues);

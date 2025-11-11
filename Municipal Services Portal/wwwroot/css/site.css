@@ -550,13 +550,7 @@ html, body {
         font-weight: bold;
     }
 
-    .issue-card .status .pending {
-        background-color: #f0ad4e;
-    }
 
-    .issue-card .status .resolved {
-        background-color: #5cb85c;
-    }
 
     .issue-card .btn-view {
         align-self: flex-start;
@@ -784,3 +778,12 @@ body.events {
     color: inherit;
     margin-top: 0.5rem;
 }
+ .badge.pending{
+     background-color: #ff4d4d;
+ }
+ .badge.inprogress{
+     background-color: #ffa500;
+ }
+ .badge.resolved{
+     background-color: #28a745;
+ }

@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Service Request Status";
     var bstIssues = ViewBag.bstIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
+    var heapIssues = ViewBag.heapIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
 }
 
 <div class="display-section">
@@ -29,7 +30,7 @@
                         <p class="description"><strong>Description:</strong> @issue.Description</p>
                         <p class="date"><strong>Date Submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
                         <p class="status">
-                            <span class="badge @(issue.Status == "Pending" ? "pending" : "resolved")">@issue.Status</span>
+                            <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")">@issue.Status</span>
                         </p>
                         <p class="description"><strong>Request ID:</strong> @issue.IssueID</p>
                         @if (!string.IsNullOrEmpty(issue.MediaPath))
