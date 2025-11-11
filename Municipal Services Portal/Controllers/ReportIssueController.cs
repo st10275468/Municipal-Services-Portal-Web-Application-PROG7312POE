@@ -13,13 +13,23 @@ namespace Municipal_Services_Portal.Controllers
             //Sample data that will be on the website when opened for demo purposes
             var issue1 = new Issue("2 Howe Road, Observatory", "Roads", "Road is flooded", "", 1 );
             var issue2 = new Issue("41 Main Road, Bergvliet", "Electrical", "Street light down", "", 2 );
+            var issue3 = new Issue("3 Lower Main Road, Observatory", "Water", "Burst pipe", "", 2);
+            var issue4 = new Issue("69 Sandown Road, Rondebosch", "Sanitation", "Blocked Sewer", "", 2);
+            var issue5 = new Issue("32 Klipfontein road, Mowbray", "Parks", "Broken Swing", "", 2);
+
 
             issue1.Status = "Resolved";
             issue2.Status = "In Progress";
+            issue3.Status = "Pending";
+            issue4.Status = "Resolved";
+            issue5.Status = "Pending";
 
             issues.AddIssue(issue1);
             issues.AddIssue(issue2);
-               
+            issues.AddIssue(issue3);
+            issues.AddIssue(issue4);
+            issues.AddIssue(issue5);
+
         }
 
         [HttpGet]

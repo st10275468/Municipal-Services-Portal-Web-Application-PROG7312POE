@@ -4,55 +4,141 @@
     ViewData["Title"] = "Service Request Status";
     var bstIssues = ViewBag.bstIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
     var heapIssues = ViewBag.heapIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
+    var relatedCategories = ViewBag.relatedCategories as List<string> ?? new List<string>();
+    var relatedCategoryIssues = ViewBag.relatedCategoryIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
+    var searchID = ViewBag.SearchID as int?;
 }
 
-<div class="display-section">
+<div class="display-section" style="min-height: 800px;">
     <div class="container">
-        <div class="reportHero-text">
+        <div class="reportHero-text mb-4">
             <h1>Service Request Status</h1>
             <p>Track the status of your service requests</p>
         </div>
-        <div class="issues-filter mb-4">
-            <input type="number" id="searchInput" placeholder="Search using Issue ID" onkeyup="filterIssues()"/>
-        </div>
-        <div class="issues-grid" id="issuesGrid">
-            @if (bstIssues.Count == 0)
-            {
-                <div class="no-issues"> No issues found</div>
-            }
-            else
-            {
-                @foreach (var issue in bstIssues)
-                {
-                    <div class="issue-card" data-issueid="@issue.IssueID">
-                        <h5>@issue.Category</h5>
-                        <p class="location"><strong>Location:</strong> @issue.Location</p>
-                        <p class="description"><strong>Description:</strong> @issue.Description</p>
-                        <p class="date"><strong>Date Submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
-                        <p class="status">
-                            <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")">@issue.Status</span>
-                        </p>
-                        <p class="description"><strong>Request ID:</strong> @issue.IssueID</p>
-                        @if (!string.IsNullOrEmpty(issue.MediaPath))
-                        {
-                            <a href="@issue.MediaPath" target="_blank" class="btn-">View Attachment</a>
-                        }
-                    </div>
-                }
-            }
-        </div>
 
+        <div class="row">
+            <div class="col-lg-9">
+                <div class="issues-filter mb-4">
+                    <form method="get" asp-controller="ServiceRequest" asp-action="ServiceRequest">
+                        <div class="input-group">
+                            <input type="number" name="searchID" placeholder="Search using Issue ID" class="form-control" value="@searchID" />
+                            <button type="submit" class="btn btn-primary"> Search</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="issues-grid" id="issuesGrid">
+                    @if (bstIssues.Count == 0)
+                    {
+                        <div class="no-issues"> No issues found</div>
+                    }
+                    else
+                    {
+                        @foreach (var issue in bstIssues)
+                        {
+                            <div class="issue-card mb-3 p-3" data-issueid="@issue.IssueID" style="border:1px solid #ddd; border-radius:10px;">
+                                <h5>@issue.Category</h5>
+                                <p class="location"><strong>Location:</strong> @issue.Location</p>
+                                <p class="description"><strong>Description:</strong> @issue.Description</p>
+                                <p class="date"><strong>Date submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
+                                <p class="status">
+                                    <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")"> @issue.Status</span>
+                                </p>
+                                <p class="description"><strong>Request ID: </strong> @issue.IssueID</p>
+                                @if (!string.IsNullOrEmpty(issue.MediaPath))
+                                {
+                                    <a href="@issue.MediaPath" target="_blank" class="btn-"> View Attachment</a>
+                                }
+                            </div>
+                        }
+                    }
+                </div>
+
+                @if (searchID.HasValue)
+                {
+                    <h4 class="mt-4" style="text-align:center;"> Issues from related categories</h4>
+
+                    @if (relatedCategoryIssues.Count == 0)
+                    {
+                        <p class="text-muted" style="text-align:center;">No related issues found</p>
+                    }
+                    else
+                    {
+                        <div class="issues-grid">
+                            @foreach (var issue in relatedCategoryIssues)
+                            {
+                                <div class="issue-card mb-3 p-3" style="border: 1px solid #ddd; border-radius: 10px;">
+                                    <p class="location"><strong>Location:</strong> @issue.Location</p>
+                                    <p class="description"><strong>Description:</strong> @issue.Description</p>
+                                    <p class="date"><strong>Date submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
+                                    <p class="status">
+                                        <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")"> @issue.Status</span>
+                                    </p>
+                                    <p class="description"><strong>Request ID: </strong> @issue.IssueID</p>
+                                    @if (!string.IsNullOrEmpty(issue.MediaPath))
+                                    {
+                                        <a href="@issue.MediaPath" target="_blank" class="btn-"> View Attachment</a>
+                                    }
+                                
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </div>
+
+            <div class="col-lg-3">
+                <h4 class="priority-heading"> Priority Service Requests</h4>
+                <ul class="list-group mb-4" id="priorityList">
+                    @if (heapIssues.Count > 0)
+                    {
+                        foreach (var issue in heapIssues)
+                        {
+                            <li class="list-group-item d-flex justify-content-between align-items-center" style="border-radius:10px; margin-bottom:5px;">
+                                <span>@issue.Category - @issue.IssueID</span>
+                                <span class="badge @(issue.Status == "Pending" ? "pending" : issue.Status == "In Progress" ? "inprogress" : "resolved")"> @issue.Status</span>
+                            </li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="list-group-item">No priority issues</li>
+                    }
+                </ul>
+
+                <h5>Related Categories</h5>
+                @if (relatedCategories.Count > 0)
+                {
+                    <ul class="list-group mb-4">
+                        @foreach (var category in relatedCategories)
+                        {
+                            <li class="list-group-item" style="border-radius:10px; margin-bottom: 5px;">
+                                @category
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-muted">No related categories</p>
+                }
+
+            </div>
+
+
+        </div>
+    
     </div>
 </div>
-
 <script>
     function filterIssues(){
         var input = document.getElementById('searchInput').value;
         var cards = document.querySelectorAll('.issue-card');
 
         cards.forEach(card => {
-            var issueID = card.dataset.issueid;
+            var issueID = card.dataset.issueID;
             card.style.display = issueID.includes(input) ? 'flex' : 'none';
         });
     }
+
 </script>

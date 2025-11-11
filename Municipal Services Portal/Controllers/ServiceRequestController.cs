@@ -11,6 +11,7 @@ namespace Municipal_Services_Portal.Controllers
             BinSearchTree bst = new BinSearchTree();
             IssueHeap issueHeap = new IssueHeap();
             Graphs graph = new Graphs();
+            graph.SetupConnections();
 
             Issue[] arrIssues = issues.ToArray();
 
@@ -18,8 +19,6 @@ namespace Municipal_Services_Portal.Controllers
             { 
                 bst.Insert(issue);
                 issueHeap.Insert(issue);
-                graph.AddCategory(issue.Category);
-
             }
 
             List<Issue> bstIssues;
@@ -35,21 +34,21 @@ namespace Municipal_Services_Portal.Controllers
 
             }
 
+            List<string> relatedCategories = new List<string>();
+            List<Issue> relatedCategoryIssues = new List<Issue>();
 
-                for (int i = 0; i < arrIssues.Length; i++)
-                {
-                    for (int j = i + 1; j < arrIssues.Length; j++)
-                    {
-                        if (arrIssues[i].Category == arrIssues[j].Category)
-                        {
-                            graph.Connect(arrIssues[i].Category, arrIssues[j].Category);
-                        }
-                    }
-                }
-
+            if (searchID.HasValue && bstIssues.Count > 0)
+            {
+                string category = bstIssues[0].Category;    
+                relatedCategories = graph.GetConnectedCategories(category);
+                relatedCategoryIssues = arrIssues.Where(i => relatedCategories.Contains(i.Category) && i.IssueID != searchID.Value).ToList();
+            }
+          
             ViewBag.bstIssues = bstIssues;
             ViewBag.heapIssues = issueHeap.ToSortedList();
-            ViewBag.Graph = graph;
+            ViewBag.relatedCategories = relatedCategories;
+            ViewBag.relatedCategoryIssues = relatedCategoryIssues;
+            ViewBag.SearchID = searchID;
 
             return View(arrIssues);
         }

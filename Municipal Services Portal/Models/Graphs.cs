@@ -2,65 +2,48 @@
 {
     public class Graphs
     {
-        public Dictionary<string, List<string>> connections { get; private set; } = new Dictionary<string, List<string>>();
+        public Dictionary<string, HashSet<string>> connections { get; private set; } = new Dictionary<string, HashSet<string>>();
 
-        public void AddCategory(string category)
+        public void Connect(string category1, string category2)
         {
-            if (!connections.ContainsKey(category))
-            {
-                connections[category] = new List<string>();
-            }
-        }
-
-        public void Connect(string start, string end)
-        {
-            AddCategory(start);
-            AddCategory(end);
             
-            if (!connections[start].Contains(end))
+            if (!connections.ContainsKey(category1))
             {
-                connections[start].Add(end);
+                connections[category1] = new HashSet<string>();
             }
-            if (!connections[end].Contains(start))
+            if (!connections.ContainsKey(category2))
             {
-                connections[end].Add(start);
+                connections[category2] = new HashSet<string>();
+            }
+           
+            if (category1 != category2) {
+            
+                connections[category1].Add(category2);
+                connections[category2].Add(category1);
             }
         }
 
-        public List<string> GetConnected(string category) 
+        public List<string> GetConnectedCategories(string category)
         {
-            List<string> connected = new List<string>();
-            if (!connections.ContainsKey(category))
-            {
-                return connected;
-            }
-
-            Queue<string> queue = new Queue<string>();
-            HashSet<string> visited = new HashSet<string>();
-
-            queue.Enqueue(category);
-            visited.Add(category);
-
-            while (queue.Count > 0)
-            {
-                string current = queue.Dequeue();
-                connected.Add(current);
-
-                foreach (var neighbor in connections[current])
-                {
-                    if (!visited.Contains(neighbor))
-                    {
-                        visited.Add((neighbor));
-                        queue.Enqueue((neighbor));
-                    }
-                }
-            }
-
-            return connected;
-
+            return connections.ContainsKey(category) ? connections[category].ToList() : new List<string>();
         }
 
-
-
+        public void SetupConnections()
+        {
+            Connect("Roads", "Traffic");
+            Connect("Roads", "Safety");
+            Connect("Roads", "Drainage");
+            Connect("Water", "Health");
+            Connect("Water", "Sanitation");
+            Connect("Electricity", "Safety");
+            Connect("Electricity", "Lighting");
+            Connect("Waste", "Health");
+            Connect("Sanitation", "Health");
+            Connect("Parks", "Environment");
+            Connect("Environment", "Health");
+            Connect("Buildings", "Safety");
+            Connect("Buildings", "Parks");
+        }
+   
     }
 }
