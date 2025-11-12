@@ -27,7 +27,7 @@ OpenAI, 2025. ChatGPT (Version GPT-5 mini).[Large language model].Available at: 
                 <div class="issues-filter mb-4">
                     <form method="get" asp-controller="ServiceRequest" asp-action="ServiceRequest">
                         <div class="input-group">
-                            <input type="number" name="searchID" placeholder="Search using Issue ID" class="form-control" value="@searchID" />
+                            <input type="number" name="searchID" placeholder="Search using Request ID" class="form-control" value="@searchID" />
                             <button type="submit" class="btn btn-primary" style="background-color: var(--primary-color); border: var(--primary-color);"> Search</button>
                         </div>
                     </form>
@@ -76,6 +76,7 @@ OpenAI, 2025. ChatGPT (Version GPT-5 mini).[Large language model].Available at: 
                             @foreach (var issue in relatedCategoryIssues)
                             {
                                 <div class="issue-card mb-3 p-3" style="border: 1px solid #ddd; border-radius: 10px;">
+                                    <h5>@issue.Category</h5>
                                     <p class="location"><strong>Location:</strong> @issue.Location</p>
                                     <p class="description"><strong>Description:</strong> @issue.Description</p>
                                     <p class="date"><strong>Date submitted:</strong> @issue.DateSubmitted.ToString("dd MMM yyyy HH:mm")</p>
