@@ -1,18 +1,28 @@
-﻿using System.Collections.Generic;
-using System;
-
+﻿/* Reference:
+OpenAI, 2025. ChatGPT (Version GPT-5 mini).[Large language model].Available at: https://chatgpt.com/c/68cd30d8-86c4-8323-866a-e2bc1d538387 [Accessed: 10 November 2025].
+*/
 namespace Municipal_Services_Portal.Models
 {
+    /// <summary>
+    /// IssueHeap class helps retrieve and display the most urgent requests based off of their calculated priority
     public class IssueHeap
     {
         private List<Issue> issueHeap = new List<Issue>();
 
+        /// <summary>
+        /// Adds a new issue into the heap
+        /// </summary>
+        /// <param name="issue"></param>
         public void Insert(Issue issue)
         {
             issueHeap.Add(issue);   
             MoveUp(issueHeap.Count - 1);
         }
 
+        /// <summary>
+        /// Moves the current issue up in the heap if the priority is higher
+        /// </summary>
+        /// <param name="i"></param>
         private void MoveUp(int i)
         {
             while (i > 0)
@@ -28,6 +38,11 @@ namespace Municipal_Services_Portal.Models
             }
         }
 
+        /// <summary>
+        /// Used to rearrange issue in the heap by swapping them
+        /// </summary>
+        /// <param name="i"></param>
+        /// <param name="j"></param>
         private void Swap(int i, int j)
         {
             Issue tempIssue = issueHeap[i];
@@ -35,6 +50,11 @@ namespace Municipal_Services_Portal.Models
             issueHeap[j] = tempIssue;
         }
 
+        /// <summary>
+        /// Calculating the priority of each issue based on their status
+        /// </summary>
+        /// <param name="issue"></param>
+        /// <returns></returns>
         private int GetPriority(Issue issue)
         {
             return issue.Status switch
@@ -46,6 +66,10 @@ namespace Municipal_Services_Portal.Models
             };
         }
 
+        /// <summary>
+        /// Retrieves the highest priority issue from the heap and removes it
+        /// </summary>
+        /// <returns></returns>
         public Issue ExtractMax()
         {
             if (issueHeap.Count == 0)
@@ -61,6 +85,10 @@ namespace Municipal_Services_Portal.Models
             return topIssue;
         }
 
+        /// <summary>
+        /// Organizes the heap by moving the current issue down the heap if its priority is less
+        /// </summary>
+        /// <param name="i"></param>
         private void MoveDown(int i)
         {
             int largest = i;
@@ -83,6 +111,10 @@ namespace Municipal_Services_Portal.Models
         }
 
 
+        /// <summary>
+        /// Returns a sorted list of issues based on their priority
+        /// </summary>
+        /// <returns></returns>
         public List<Issue> ToSortedList()
         {
             var sortedIssues = new List<Issue>(issueHeap);
@@ -92,3 +124,5 @@ namespace Municipal_Services_Portal.Models
 
     }
 }
+
+//-----------------------------------------------------------END OF FILE----------------------------------------------------------------------------//

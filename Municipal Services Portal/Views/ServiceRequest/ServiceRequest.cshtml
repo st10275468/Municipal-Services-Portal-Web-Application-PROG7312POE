@@ -1,7 +1,12 @@
-﻿@model Municipal_Services_Portal.Models.Issue[]
+﻿<!--Reference:
+OpenAI, 2025. ChatGPT (Version GPT-5 mini).[Large language model].Available at: https://chatgpt.com/c/68cd30d8-86c4-8323-866a-e2bc1d538387 [Accessed: 10 November 2025].
+-->
+@model Municipal_Services_Portal.Models.Issue[]
 
 @{
     ViewData["Title"] = "Service Request Status";
+
+    //Retrieves all the data from the controller
     var bstIssues = ViewBag.bstIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
     var heapIssues = ViewBag.heapIssues as List<Municipal_Services_Portal.Models.Issue> ?? new List<Municipal_Services_Portal.Models.Issue>();
     var relatedCategories = ViewBag.relatedCategories as List<string> ?? new List<string>();
@@ -11,12 +16,14 @@
 
 <div class="service-request" style="min-height: 800px;">
     <div class="container">
+        <!--Main heading of the page -->
         <div class="service-request-header" style="padding-top: 40px;">
             <h1>Service Request Status</h1>
             <p class="service-text" style="font-size: 20px;">Track the status of your service requests</p>
         </div>
         <div class="row">
             <div class="col-lg-9">
+                <!--Request ID search form -->
                 <div class="issues-filter mb-4">
                     <form method="get" asp-controller="ServiceRequest" asp-action="ServiceRequest">
                         <div class="input-group">
@@ -26,6 +33,7 @@
                     </form>
                 </div>
 
+                <!--Main section displaying all issues or specific issue relating the user input-->
                 <div class="issues-grid" style="min-height: 100px;" id="issuesGrid">
                     @if (bstIssues.Count == 0)
                     {
@@ -53,6 +61,7 @@
                     }
                 </div>
 
+                <!--2nd Main section that displays any issues that have related category connections to the searched issue-->
                 @if (searchID.HasValue)
                 {
                     <h4 class="recently-viewed-heading" style="text-align:center; margin-top: 15px; margin-bottom: 15px">Issues from related categories</h4>
@@ -86,7 +95,10 @@
                 }
             </div>
 
+            <!--Side bar section of the page-->
             <div class="col-lg-3">
+
+                <!--Top of sidebar which displays the issues in the most prioritized order-->
                 <h4 class="recently-viewed-heading"> Priority Service Requests</h4>
                 <ul class="list-group" id="priorityList">
                     @if (heapIssues.Count > 0)
@@ -105,6 +117,7 @@
                     }
                 </ul>
 
+                <!--Bottom of side bar that displays teh related categories to the searched request -->
                 <h4 class="recently-viewed-heading" style="margin-top: 10px;">Related Categories</h4>
                 @if (relatedCategories.Count > 0)
                 {
@@ -142,3 +155,4 @@
     }
 
 </script>
+<!----------------------------------------------------------END OF FILE------------------------------------------------->
